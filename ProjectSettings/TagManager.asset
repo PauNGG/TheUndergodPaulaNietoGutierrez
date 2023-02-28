@@ -11,12 +11,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background1
+  - Background2
+  - Level
+  - Effects
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -40,4 +40,25 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background1
+    uniqueID: 2696883643
+    locked: 0
+  - name: Background2
+    uniqueID: 3473495065
+    locked: 0
+  - name: Level
+    uniqueID: 3841750285
+    locked: 0
+  - name: Platforms
+    uniqueID: 1523185023
+    locked: 0
+  - name: Effects
+    uniqueID: 230855693
+    locked: 0
+  - name: Player
+    uniqueID: 990776877
+    locked: 0
+  - name: Enemy
+    uniqueID: 2850158687
     locked: 0
