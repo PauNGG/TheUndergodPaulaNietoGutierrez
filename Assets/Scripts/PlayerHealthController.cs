@@ -15,7 +15,7 @@ public class PlayerHealthController : MonoBehaviour
     private SpriteRenderer theSR;
 
     //La referencia del efecto de muerte del jugador
-    public GameObject deathEffect;
+    //public GameObject deathEffect;
 
     //Hacemos el Singleton de este script
     public static PlayerHealthController sharedInstance;
@@ -75,7 +75,7 @@ public class PlayerHealthController : MonoBehaviour
                 //gameObject.SetActive(false);
 
                 //Instanciamos el efecto de muerte del jugador
-                Instantiate(deathEffect, transform.position, transform.rotation);
+                //Instantiate(deathEffect, transform.position, transform.rotation);
 
                 //Llamamos al método que respawnea al jugador
                 LevelManager.sharedInstance.RespawnPlayer();

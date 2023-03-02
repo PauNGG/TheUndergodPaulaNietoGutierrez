@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
         //Activamos de nuevo al jugador
         PlayerController.sharedInstance.gameObject.SetActive(true);
         //Lo ponemos en la posición de respawn
-        //PlayerController.sharedInstance.transform.position = CheckpointController.sharedInstance.spawnPoint;
+        PlayerController.sharedInstance.transform.position = CheckpointController.sharedInstance.spawnPoint;
         //Ponemos la vida del jugador al máximo
         PlayerHealthController.sharedInstance.currentHealth = PlayerHealthController.sharedInstance.maxHealth;
         //Actualizamos la UI
