@@ -48,4 +48,12 @@ public class DialogueController : MonoBehaviour
         textComponent.text = state.GetStateStory();
         spriteComponent.sprite = state.GetStateSprite();
     }
+
+
+
+
+    //Método para activar los diálogos
+
+
+
 }

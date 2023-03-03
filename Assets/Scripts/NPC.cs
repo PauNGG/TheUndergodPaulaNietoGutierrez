@@ -6,29 +6,16 @@ using TMPro;
 
 public class NPC : MonoBehaviour
 {
-    //Referencias a los objetos del diálogo
-
-    public TextMeshProUGUI dialogueText;
     public Image dialoguePortrait;
+    public TextMeshProUGUI dialogueText;
 
-    private void Update()
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (collision.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Funciona");
             dialogueText.enabled = true;
             dialoguePortrait.enabled = true;
         }
-
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    //Si es el jugador el que ha entrado en la zona de acción
-    //    if (collision.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        Debug.Log("Funciona");
-    //        dialogueText.enabled = true;
-    //        dialoguePortrait.enabled = true;
-    //    }
-    //}
 }
