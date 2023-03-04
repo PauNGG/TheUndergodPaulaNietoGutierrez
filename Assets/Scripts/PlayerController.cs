@@ -18,6 +18,14 @@ public class PlayerController : MonoBehaviour
 
 
 
+    //Variables para el abrazo y el rugido.
+    public GameObject hugArea;
+    public GameObject speakArea;
+    public GameObject roarArea;
+
+
+
+
     private Animator anim;
     public bool isLeft;
 
@@ -42,6 +50,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        //INPUTS PARA SABER SI ABRAZA
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            hugArea.SetActive(true);
+            speakArea.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            roarArea.SetActive(true);
+        }
+
+
+
+
+
+
+
+
         //Si el contador de KnockBack se ha vaciado, el jugador recupera el control del movimiento
         if (knockBackCounter <= 0)
         {
@@ -95,6 +124,17 @@ public class PlayerController : MonoBehaviour
                 //Aplicamos un pequeño empuje a la izquierda
                 theRB.velocity = new Vector2(-knockBackForce, theRB.velocity.y);
             }
+
+
+
+
+   
+
+
+
+
+
+
         }
 
         //ANIMACIONES DEL JUGADOR
