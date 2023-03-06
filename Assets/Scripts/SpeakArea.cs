@@ -6,7 +6,7 @@ public class SpeakArea : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && collision.GetComponent<EnemyController>().npc == true)
+        if (collision.gameObject.tag == "NPC")
         {
             Debug.Log("Has hablado con el NPC");
         }

@@ -7,7 +7,6 @@ public class EnemyController : MonoBehaviour
     //Velocidad del enemigo
     public float moveSpeed;
 
-    public bool npc = false;
     public bool isScared = false;
     public bool affectedByRoar;
     public bool isMoving;
@@ -46,9 +45,6 @@ public class EnemyController : MonoBehaviour
         {
             theSR.flipX = true;
         }
-
-
-
 
 
 
