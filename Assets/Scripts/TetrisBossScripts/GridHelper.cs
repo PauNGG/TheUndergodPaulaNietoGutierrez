@@ -128,10 +128,6 @@ public class GridHelper : MonoBehaviour
                 y--;
 
 
-                GameManagerTetris.sharedInstance.points += 1000;
-                GameManagerTetris.sharedInstance.Score.text = GameManagerTetris.sharedInstance.points.ToString();
-                GameManagerTetris.sharedInstance.linecounter++;
-                GameManagerTetris.sharedInstance.Lines.text = GameManagerTetris.sharedInstance.linecounter.ToString();
                 GameManagerTetris.sharedInstance.StartCoroutine(GameManagerTetris.sharedInstance.DestroyLine());
             }
         }
