@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeakArea : MonoBehaviour
+public class BreakArea : MonoBehaviour
 {
+    public GameObject backupSprite;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "NPC")
+        if (collision.gameObject.tag == "Breakable")
         {
-            Debug.Log("Has hablado con el NPC");
+            Destroy(collision.gameObject);
         }
     }
 
     private void Update()
     {
-        Invoke("DisableSpeakArea", 0.5f);
+        Invoke("DisableBreakArea", 1f);
     }
 
-    private void DisableSpeakArea()
+    private void DisableBreakArea()
     {
         this.gameObject.SetActive(false);
     }

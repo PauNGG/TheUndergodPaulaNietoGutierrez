@@ -10,13 +10,22 @@ public class Can : MonoBehaviour
     private void Start()
     {
         theRB = GetComponent<Rigidbody2D>();
+        this.gameObject.SetActive(true);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.GetComponent<BottleEnemy>().DealWithBossDamage();
+        }
     }
 
     private void Update()
     {
         theRB.velocity = new Vector2(0, +speed);
         transform.Rotate(0, 0, 1000 * Time.deltaTime);
-        Destroy(gameObject, 4f);
+        Destroy(gameObject, 2f);
 
     }
 

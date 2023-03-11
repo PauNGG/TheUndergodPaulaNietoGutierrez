@@ -6,7 +6,6 @@ public class HumanPlayerController : MonoBehaviour
 {
     public float movementSpeed = 5;
     public string axis = "Horizontal";
-    public float throwCooldown;
 
     public Transform firePointRight;
     public Transform firePointLeft;
@@ -17,9 +16,15 @@ public class HumanPlayerController : MonoBehaviour
 
     public bool isLeft;
 
+    public float fireRate = 1f;
+    public float canFireTimer = 0f;
 
 
+    public float knockBackLength, knockBackForce; //Valor que tendrá el contador de KnockBack, y la fuerza de KnockBack
+    private float knockBackCounter; //Contador de KnockBack
 
+
+    //SINGLETON//
     public static HumanPlayerController sharedInstance;
 
     private void Awake()
@@ -29,7 +34,6 @@ public class HumanPlayerController : MonoBehaviour
             sharedInstance = this;
         }
     }
-
     private void Start()
     {
         theRB = GetComponent<Rigidbody2D>();
@@ -39,22 +43,14 @@ public class HumanPlayerController : MonoBehaviour
     // Ponemos FixedUpdate para que la longitud de cada frame en segundos mida lo mismo, y así el movimiento sea suavizado
     void Update()
     {
-        //ATAQUE
-        if (Input.GetKeyDown(KeyCode.E))
+
+
+
+            //ATAQUE
+            if (Input.GetKeyDown(KeyCode.E) && Time.time > canFireTimer)
         {
-
-            if (isLeft)
-            {
-                Instantiate(can, firePointLeft.position, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(can, firePointRight.position, Quaternion.identity);
-            }
-
-            can.gameObject.SetActive(false);
-
-            StartCoroutine(CooldownCo());
+            canFireTimer = Time.time + fireRate;
+            ThrowCan();
         }
 
 
@@ -83,10 +79,36 @@ public class HumanPlayerController : MonoBehaviour
             isLeft = false;
         }
     }
-    public IEnumerator CooldownCo()
-    {
-        yield return new WaitForSeconds(throwCooldown);
 
-        can.gameObject.SetActive(true);
+    private void ThrowCan()
+    {
+        if (isLeft)
+        {
+            Instantiate(can, firePointLeft.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(can, firePointRight.position, Quaternion.identity);
+
+        }
+    }
+
+
+
+
+
+
+
+
+    public void KnockBack()
+    {
+        //Inicializar el contador de KnockBack
+        knockBackCounter = knockBackLength;
+        //Paralizamos en X al jugador y hacemos que salte en Y
+        theRB.velocity = new Vector2(0f, knockBackForce);
+
+        //Activamos el trigger del animator
+        //anim.SetTrigger("hurt");
     }
 }
+

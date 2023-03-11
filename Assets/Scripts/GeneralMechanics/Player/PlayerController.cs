@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     public float moveSpeed;
     public float jumpForce;
     private bool isGrounded;
@@ -22,8 +23,10 @@ public class PlayerController : MonoBehaviour
     public GameObject hugArea;
     public GameObject speakArea;
     public GameObject roarArea;
+    public GameObject breakArea;
 
-
+    public GameObject backupBreakSprite;
+    public GameObject backupJumpSprite;
 
 
     private Animator anim;
@@ -46,7 +49,12 @@ public class PlayerController : MonoBehaviour
         theRB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         theSR = GetComponent<SpriteRenderer>();
+
+
+
     }
+
+
 
     void Update()
     {
@@ -64,11 +72,11 @@ public class PlayerController : MonoBehaviour
             roarArea.SetActive(true);
         }
 
-
-
-
-
-
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Instantiate(backupBreakSprite, theRB.position, Quaternion.identity);
+            breakArea.SetActive(true);
+        }
 
 
         //Si el contador de KnockBack se ha vaciado, el jugador recupera el control del movimiento
@@ -124,24 +132,7 @@ public class PlayerController : MonoBehaviour
                 //Aplicamos un pequeño empuje a la izquierda
                 theRB.velocity = new Vector2(-knockBackForce, theRB.velocity.y);
             }
-
-
-
-
-   
-
-
-
-
-
-
         }
-
-        //ANIMACIONES DEL JUGADOR
-        //Cambiamos el valor del parámetro del Animator "moveSpeed", dependiendo del valor en X de la velocidad de Rigidbody
-        //anim.SetFloat("moveSpeed", Mathf.Abs(theRB.velocity.x));//Mathf.Abs hace que un valor negativo sea positivo, lo que nos permite que al movernos a la izquierda también se anime esta acción
-        //Cambiamos el valor del parámetro del Animator "isGrounded", dependiendo del valor de la booleana del código "isGrounded"
-        //anim.SetBool("isGrounded", isGrounded);
     }
 
     //Método para gestionar el KnockBack producido al jugador al hacerse daño

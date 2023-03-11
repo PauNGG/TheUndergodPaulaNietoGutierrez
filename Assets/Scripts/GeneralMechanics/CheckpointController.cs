@@ -24,10 +24,17 @@ public class CheckpointController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Buscamos todos los Game Objects que tengan el script asociado checkpoint y los guardamos en nuestro array
-        checkpoints = GetComponentsInChildren<Checkpoint>();
-        //Guardamos la posición inicial como punto de checkpoint si aún no hemos activado ninguno
-        spawnPoint = PlayerController.sharedInstance.transform.position;
+        if (PlayerHealthController.sharedInstance.playerIsHuman == false)
+        {
+            //Buscamos todos los Game Objects que tengan el script asociado checkpoint y los guardamos en nuestro array
+            checkpoints = GetComponentsInChildren<Checkpoint>();
+            //Guardamos la posición inicial como punto de checkpoint si aún no hemos activado ninguno
+            spawnPoint = PlayerController.sharedInstance.transform.position;
+        }
+        else
+        {
+            spawnPoint = HumanPlayerController.sharedInstance.transform.position;
+        }
     }
 
     //Método para desactivar los checkpoints

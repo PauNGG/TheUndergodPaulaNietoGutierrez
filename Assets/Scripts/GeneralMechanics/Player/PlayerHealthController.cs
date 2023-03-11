@@ -17,6 +17,9 @@ public class PlayerHealthController : MonoBehaviour
     //La referencia del efecto de muerte del jugador
     //public GameObject deathEffect;
 
+    public bool playerIsHuman = false;
+
+
     //Hacemos el Singleton de este script
     public static PlayerHealthController sharedInstance;
 
@@ -88,8 +91,18 @@ public class PlayerHealthController : MonoBehaviour
                 //Cambiamos el color del sprite, mantenemos el RGB y ponemos la opacidad a la mitad
                 theSR.color = new Color(theSR.color.r, theSR.color.g, theSR.color.b, .5f);
 
-                //Llamamos al método que hace que el jugador realice el KnockBack
-                PlayerController.sharedInstance.KnockBack();
+                if (!playerIsHuman)
+                {
+                    //Llamamos al método que hace que el jugador realice el KnockBack
+                    PlayerController.sharedInstance.KnockBack();
+
+                }
+                else
+                {
+                    //Llamamos al método que hace que el jugador realice el KnockBack
+                    HumanPlayerController.sharedInstance.KnockBack();
+
+                }
             }
 
             //Actualizamos la UI

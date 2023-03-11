@@ -17,12 +17,40 @@ public class BottleEnemy : MonoBehaviour
     public float moveTime, waitTime;
     private float moveCount, waitCount;
 
+    public GameObject glassShard;
+
+
+    public int currentHealth, maxHealth;
+
+
+    public float invincibleLength; //Valor que tendrá el contador de tiempo
+    private float invincibleCounter; //Contador de tiempo
+
+
+
     //Referencia al RigidBody del enemigo
     private Rigidbody2D theRB;
     //Referencia al SpriteRenderer del enemigo
     private SpriteRenderer theSR;
     //Referencia al Animator del enemigo
     private Animator anim;
+
+
+
+
+
+
+    //SINGLETON//
+    public static BottleEnemy sharedInstance;
+
+    private void Awake()
+    {
+        if (sharedInstance == null)
+        {
+            sharedInstance = this;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +75,37 @@ public class BottleEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+
+
+
+        //Comprobamos si el contador de invencibilidad aún no está vacío
+        if (invincibleCounter > 0)
+        {
+            //Le restamos 1 cada segundo a ese contador independientemente del dispositivo que ejecute el juego
+            invincibleCounter -= Time.deltaTime;
+
+            //Cuando el contador haya decrecido hasta 0
+            if (invincibleCounter <= 0)
+            {
+                //Cambiamos el color del sprite, mantenemos el RGB y ponemos la opacidad a tope
+                theSR.color = new Color(theSR.color.r, theSR.color.g, theSR.color.b, 1f);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         //Si el contador de tiempo de movimiento no está vacío, el enemigo se puede mover
         if (moveCount > 0)
         {
@@ -92,6 +151,9 @@ public class BottleEnemy : MonoBehaviour
                 //Inicializamos el contador de tiempo de espera
                 //waitCount = waitTime;
                 waitCount = Random.Range(waitTime * .25f, waitTime * 1.25f);//Random.Range(valor mínimo, valor máximo)
+                Instantiate(glassShard, this.transform.position, Quaternion.identity);
+
+
             }
 
             //Animación de movimiento del enemigo
@@ -119,4 +181,34 @@ public class BottleEnemy : MonoBehaviour
         }
     }
 
+
+    public void DealWithBossDamage()
+    {
+        //Si el contador de tiempo de invencibilidad se ha agotado, es decir, ya no somos invencibles
+        if (invincibleCounter <= 0)
+        {
+
+            //Restamos 1 de la vida que tengamos
+            currentHealth--; //currentHealth -= 1; currentHealth = currentHealth - 1;
+
+            //Si la vida está en 0 o por debajo (para asegurarnos de tener en cuenta solo valores positivos)
+            if (currentHealth <= 0)
+            {
+                //Hacemos cero la vida si fuera negativa
+                currentHealth = 0;
+
+                Destroy(this.gameObject);
+
+            }
+            //Si el jugador ha recibido daño pero no ha muerto
+            else
+            {
+                //Inicializamos el contador de invencibilidad
+                invincibleCounter = invincibleLength;
+                //Cambiamos el color del sprite, mantenemos el RGB y ponemos la opacidad a la mitad
+                theSR.color = new Color(theSR.color.r, theSR.color.g, theSR.color.b, .5f);
+
+            }
+        }
+    }  
 }

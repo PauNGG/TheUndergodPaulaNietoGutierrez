@@ -30,18 +30,55 @@ public class LevelManager : MonoBehaviour
     //Corrutina para respawnear al jugador
     public IEnumerator RespawnPlayerCo()
     {
-        //Desactivamos al jugador
-        PlayerController.sharedInstance.gameObject.SetActive(false);
-        //Esperamos un tiempo determinado
-        yield return new WaitForSeconds(waitToRespawn);
-        //Activamos de nuevo al jugador
-        PlayerController.sharedInstance.gameObject.SetActive(true);
-        //Lo ponemos en la posición de respawn
-        PlayerController.sharedInstance.transform.position = CheckpointController.sharedInstance.spawnPoint;
-        //Ponemos la vida del jugador al máximo
-        PlayerHealthController.sharedInstance.currentHealth = PlayerHealthController.sharedInstance.maxHealth;
-        //Actualizamos la UI
-        UIController.sharedInstance.UpdateHealthDisplay();
+        if (PlayerHealthController.sharedInstance.playerIsHuman == false)
+        {
+            //Desactivamos al jugador
+            PlayerController.sharedInstance.gameObject.SetActive(false);
+            //Llamamos al sonido de muerte
+            //AudioManager.sharedInstance.PlaySFX(8);
+            //Esperamos un tiempo determinado
+            yield return new WaitForSeconds(waitToRespawn);
+            //Llamamos al método que hace fundido a negro
+            UIController.sharedInstance.FadeToBlack();
+            //Esperamos un tiempo determinado
+            yield return new WaitForSeconds(waitToRespawn);
+            //Llamamos al método que hace fundido a transparente
+            UIController.sharedInstance.FadeFromBlack();
+            //Activamos de nuevo al jugador
+            PlayerController.sharedInstance.gameObject.SetActive(true);
+            //Lo ponemos en la posición de respawn
+            PlayerController.sharedInstance.transform.position = CheckpointController.sharedInstance.spawnPoint;
+            //Ponemos la vida del jugador al máximo
+            PlayerHealthController.sharedInstance.currentHealth = PlayerHealthController.sharedInstance.maxHealth;
+            //Actualizamos la UI
+            UIController.sharedInstance.UpdateHealthDisplay();
+        }
+        else
+        {
+            //Desactivamos al jugador
+            HumanPlayerController.sharedInstance.gameObject.SetActive(false);
+            //Llamamos al sonido de muerte
+            //AudioManager.sharedInstance.PlaySFX(8);
+            //Esperamos un tiempo determinado
+            yield return new WaitForSeconds(waitToRespawn);
+            //Llamamos al método que hace fundido a negro
+            UIController.sharedInstance.FadeToBlack();
+            //Esperamos un tiempo determinado
+            yield return new WaitForSeconds(waitToRespawn);
+            //Llamamos al método que hace fundido a transparente
+            UIController.sharedInstance.FadeFromBlack();
+            //Activamos de nuevo al jugador
+            HumanPlayerController.sharedInstance.gameObject.SetActive(true);
+            //Lo ponemos en la posición de respawn
+            HumanPlayerController.sharedInstance.transform.position = CheckpointController.sharedInstance.spawnPoint;
+            //Ponemos la vida del jugador al máximo
+            PlayerHealthController.sharedInstance.currentHealth = PlayerHealthController.sharedInstance.maxHealth;
+            //Actualizamos la UI
+            UIController.sharedInstance.UpdateHealthDisplay();
+        }
+
+
+
     }
 }
 

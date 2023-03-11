@@ -6,11 +6,27 @@ public class DestroyOverTime : MonoBehaviour
 {
     //Variable de selección de tiempo para destruir el objeto
     public float lifeTime;
+    public bool isBreaking;
+    private Rigidbody2D theRB;
+    public float speed;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        //Destruirá el objeto pasado un tiempo dado
-        Destroy(gameObject, lifeTime);
+        theRB = GetComponent<Rigidbody2D>();
+    }
+        // Update is called once per frame
+        void Update()
+    {
+        if (isBreaking)
+        {
+                theRB.velocity = new Vector2(0+speed, 0);
+                Destroy(gameObject, lifeTime);
+            }
+        else
+        {
+            //Destruirá el objeto pasado un tiempo dado
+            Destroy(gameObject, lifeTime);
+        }
+
     }
 }

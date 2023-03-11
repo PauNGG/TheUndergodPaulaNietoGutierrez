@@ -11,7 +11,7 @@ public class HugArea : MonoBehaviour
             Debug.Log("Has dado un abrazo");
             Destroy(collision.gameObject.GetComponent<DamagePlayer>());
             collision.gameObject.GetComponent<EnemyController>().moveSpeed = 0f;
-            collision.transform.gameObject.tag = "NPC";
+            collision.transform.gameObject.tag = "Peaceful";
         }
     }
 
