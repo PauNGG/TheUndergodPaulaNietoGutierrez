@@ -7,10 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerTetris : MonoBehaviour
 {
-    public int points, linecounter;
+    public int linecounter;
     public static GameManagerTetris sharedInstance;
     public AudioClip destroy;
     public AudioSource sound;
+    public GameObject Human;
+    public GameObject pieceSpawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,16 +28,25 @@ public class GameManagerTetris : MonoBehaviour
         }
     }
 
-    public IEnumerator DestroyLine()
+    private void Update()
     {
-        sound.Play();
-        yield return new WaitForSeconds(0.5f);
+        if (linecounter >= 5)
+        {
+            Debug.Log("Fin");
+            StartCoroutine(EndOfTetrisCo());
+        }
     }
 
-    public IEnumerator EndGame()
+    public IEnumerator EndOfTetrisCo()
     {
-        sound.Play();
-        yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene("TetrisScene");
+        PlayerController.sharedInstance.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        Destroy(pieceSpawner);
+
+        CameraController.sharedInstance.target = PlayerController.sharedInstance.gameObject.transform;
+        yield return new WaitForSeconds(0.5f);
+
     }
 }

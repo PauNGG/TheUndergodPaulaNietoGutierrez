@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Este Script es un Helper(no es necesario relacionarlo con ningún GO)
 public class GridHelper : MonoBehaviour
 {
-
-    /* Matriz filas y columnas
-      |  0  |  1  |  2  |  3  |
-   -----------------------------
-    0 | null   x     x    null
-    1 |  x     x    null  null
-    2 | null  null  null  null
-    3 | null  null  null  null
-     
+    /* Matriz filas y columnaas
+       |  0  |  1  |  2  |  3  |
+    ----------------------------
+     0 | null   x     x    null
+     1 |  x     x    null  null
+     2 | null  null  null  null
+     3 | null  null  null  null
      */
 
     //Ancho y alto de la rejilla
-    //Son estáticas para poder instanciarlas sin tener que consultar el objeto
+    //Son estáticas para poder instanciarlas sin tener que consultar el objeto, estático es que solo hay uno de ese tipo
     public static int w = 10, h = 18 + 4;
     //Creamos el array doble rejilla, de altura y anchura dada
     public static Transform[,] grid = new Transform[w, h]; //La [,] indica dos dimensiones
@@ -25,7 +24,7 @@ public class GridHelper : MonoBehaviour
     public static Vector2 RoundVector(Vector2 v)
     {
         //Devuelve un nuevo Vector2 ya redondeado en X e Y
-        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y)); //Mathf.Round -> redondea al número entero más próximo
+        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y)); //Mathf.Round -> Redondea al número entero más próximo
     }
 
     //Método que dada una posición comprobamos si esta pieza está dentro de los bordes del juego. Nos devolverá si es cierto o no
@@ -53,11 +52,9 @@ public class GridHelper : MonoBehaviour
         {
             //Destruyo el cuadrado que hay en esa posición, el objeto que vemos en la pantalla
             Destroy(grid[x, y].gameObject);
-            //Después de destruirlo, el espacio que había reservado en la rejilla virtual, lo vacío.
-            //Cambiaríamos las X del dibujo de arriba por una posición vacía (null)
+            //Después de destruirlo, el espacio que había reservado en la rejilla virtual, lo vacío
             grid[x, y] = null;
         }
-
     }
 
     //Método que baja una fila a partir de una fila concreta
@@ -77,7 +74,6 @@ public class GridHelper : MonoBehaviour
                 //Ahora repintamos en pantalla
                 //Repintamos en pantalla el bloque una posición más abajo en la pantalla por cada bloque
                 grid[x, y - 1].position += new Vector3(0, -1, 0);
-
             }
         }
     }
@@ -93,7 +89,7 @@ public class GridHelper : MonoBehaviour
         }
     }
 
-    //Método para saber si una fila está completa, pasándole una fila
+    //Método para saber si una fila está completa, pásandole una fila
     public static bool IsRowFull(int y)
     {
         //Pasamos primero por todas las columnas de esa fila
@@ -126,9 +122,8 @@ public class GridHelper : MonoBehaviour
                 //Volveríamos a la fila anterior, es decir, si ya hemos borrado una fila todas bajarán
                 //Pero no pasaremos a la siguiente, primero volvemos a comprobar la fila en la que estamos
                 y--;
-
-
-                GameManagerTetris.sharedInstance.StartCoroutine(GameManagerTetris.sharedInstance.DestroyLine());
+                GameManagerTetris.sharedInstance.linecounter++;
+                GameManagerTetris.sharedInstance.Human.transform.Translate(0, -1, 0);
             }
         }
 
@@ -143,7 +138,7 @@ public class GridHelper : MonoBehaviour
         foreach (GameObject piece in GameObject.FindGameObjectsWithTag("Piece"))
         {
             //Si esa pieza ya no tiene bloques
-            if (piece.transform.childCount == 0)
+            if (piece.transform.childCount == 0) //childCount = número de hijos
             {
                 //Destruimos el objeto pieza
                 Destroy(piece);

@@ -8,4 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestLevel.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/TetrisBattle.unity
+    guid: a34e838d097113a47aab6712abc449a0
+  - enabled: 1
+    path: Assets/Scenes/Micropolis.unity
+    guid: 14f1f4d063e9847409b2bf78ddb2a66b
+  - enabled: 1
+    path: Assets/Scenes/MainScenario.unity
+    guid: eb7736829ef28034ca9b137095fd1332
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: bac47718ef03e5945a349652dd838ba1
+  - enabled: 1
+    path: Assets/Scenes/DropPoint.unity
+    guid: 6390f4ed2fc6cbc4e9c3c81c854637bc
+  - enabled: 1
+    path: Assets/Scenes/BottleBattle.unity
+    guid: f831f7ae7bcf2a94b9b370cd651aed59
   m_configObjects: {}

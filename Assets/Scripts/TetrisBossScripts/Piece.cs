@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    //Última caída(bajada) de la pieza hace 0 segundos
+    //Última cáida(bajada) de la pieza hace 0 segundos
     float lastFall = 0.0f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -33,7 +27,7 @@ public class Piece : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             //Roto la pieza hacia la derecha
-            this.transform.Rotate(0, 0, -90);
+            transform.Rotate(0, 0, -90);
 
             //Si la posición es válida
             if (IsValidPiecePosition())
@@ -41,51 +35,48 @@ public class Piece : MonoBehaviour
                 //Actualizamos la rejilla, guardando la nueva posición en el GridHelper
                 UpdateGrid();
             }
-            //Si la posición no fuese válida
+            //Si la posición no es válida
             else
             {
-                //Revierto la rotación hacia el lado contrario(izquierdo)
-                this.transform.Rotate(0, 0, 90);
+                transform.Rotate(0, 0, 90);
             }
         }
         //Mover la pieza hacia abajo al pulsar la tecla o cuando haya pasado más de un segundo desde la última vez que se movió
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || (Time.time - lastFall) > 1.0f)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || lastFall >= 1.0f)
         {
             //Muevo la pieza hacia abajo una posición
-            this.transform.position += new Vector3(0, -1, 0);
+            transform.position += new Vector3(0, -1, 0);
 
-            // Si la posición es válida
+            //Si la posición es válida
             if (IsValidPiecePosition())
             {
                 //Actualizamos la rejilla, guardando la nueva posición en el GridHelper
                 UpdateGrid();
             }
-            //Si la posición no fuese válida
+            //Si la posición no es válida
             else
             {
                 //Revierto el movimiento hacia abajo sumando uno hacia arriba
-                this.transform.position += new Vector3(0, 1, 0);
+                transform.position += new Vector3(0, 1, 0);
                 //Si ya no pudiese bajar más, habría que detectar si es momento de borrar una fila
                 GridHelper.DeleteAllFullRows();
-                //Hacemos que aparezca una pieza nueva, llamando al PieceSpawner a su método
-                FindObjectOfType<PieceSpawner>().SpawnNextPiece();//Busca un objeto de ese tipo para poder usar sus métodos y variables
+                //Hacemos que aparezca una pieza nueva, llamando al método del PieceSpawner
+                FindObjectOfType<PieceSpawner>().SpawnNextPiece(); //Busca un objeto de ese tipo para poder usar sus métodos y variables
                 //Deshabilitamos este script para que esta pieza no vuelva a moverse
                 this.enabled = false;
             }
             //Reiniciamos el contador de tiempo
-            lastFall = Time.time;
+            lastFall = 0;
         }
         //Cuento en milisegundos cuanto ha pasado desde la última caída
         lastFall += Time.deltaTime;
-
-        GameOver();
     }
 
     //Método para el movimiento horizontal
     void MovePieceHorizontally(int direction) //con direction, le pasamos un número para saber si el movimiento es a izquierda o a derecha
     {
         //Muevo la pieza en la dirección dada
-        this.transform.position += new Vector3(direction, 0, 0);
+        transform.position += new Vector3(direction, 0, 0);
         //Comprobamos si la nueva posición es válida
         if (IsValidPiecePosition())
         {
@@ -96,7 +87,7 @@ public class Piece : MonoBehaviour
         else
         {
             //Revertimos el movimiento a la posición en la que estaba antes
-            this.transform.position += new Vector3(-direction, 0, 0);
+            transform.position += new Vector3(-direction, 0, 0);
         }
     }
 
@@ -116,13 +107,13 @@ public class Piece : MonoBehaviour
                 return false;
             }
 
-            //Si ya hay otro bloque en esa misma posición, la posición tampoco es válida. 
+            //Si ya hay otro bloque en esa misma posición, la posición tampoco es válida.
             //Como la posición podría ser un float(tener decimales), la transformamos en número entero
             Transform possibleObject = GridHelper.grid[(int)pos.x, (int)pos.y];
             //Si ya hay otro objeto y este no es hijo del mismo objeto (osea el bloque que hay es de otra pieza)
             if (possibleObject != null && possibleObject.parent != this.transform)
             {
-                //La posición no será valida
+                //La posición no será válida
                 return false;
             }
         }
@@ -130,11 +121,11 @@ public class Piece : MonoBehaviour
         return true;
     }
 
-    //Método que actualiza la rejilla virtual tras mover las piezas o bloques a su nueva posición
+    //Método que actualiza la rejilla virtual tras moverse las piezas o bloques a su nueva posición
     //Lo haremos primero haciendo un borrado de bloques, poniendo primero todo a null, y luego poniendo las posiciones nuevas de esos bloques
     private void UpdateGrid()
     {
-        //Comparamos si el padre del objeto coincide con el del bloque estamos mirando
+        //Comparamos si el padre del objeto coincide con el del bloque que estamos mirando
         for (int y = 0; y < GridHelper.h; y++)
         {
             //Después por columnas de cada fila
@@ -151,8 +142,8 @@ public class Piece : MonoBehaviour
                     }
                 }
             }
-            //Insertamos los bloques en las posiciones que deben estar
-            //Hacemos una pasada por cada uno de los bloques de la pieza actual
+            //Insertamos los bloques en las posiciones en las que deben estar
+            //Hacemos una pasada por cada uno de los bloques de la pieza actualiza
             foreach (Transform block in this.transform)
             {
                 //Cojo la posición donde esté cada uno de los hijos y la redondeo
@@ -161,21 +152,5 @@ public class Piece : MonoBehaviour
                 GridHelper.grid[(int)pos.x, (int)pos.y] = block;
             }
         }
-
     }
-    public void GameOver()
-    {
-        foreach (Transform block in this.transform)
-        {
-            //Recuperamos su posición (la de los bloques, hijos de la pieza) y la redondeamos para que no tenga decimales
-            Vector2 pos = GridHelper.RoundVector(block.position);
-
-            if (this.transform.position.y >= 16 && IsValidPiecePosition() == false)
-            {
-                Debug.Log("Perdiste");
-                GameManagerTetris.sharedInstance.StartCoroutine(GameManagerTetris.sharedInstance.EndGame());
-            }
-        }
-    }
-
 }
