@@ -14,6 +14,12 @@ public class MovingPlatform : MonoBehaviour
     //Referencia a la posición de la plataforma
     public Transform platform;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
