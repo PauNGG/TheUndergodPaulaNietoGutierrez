@@ -31,10 +31,21 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     public bool isLeft;
-
-
+    public bool isCrouching = false;
 
     public Sprite BhalgroghPortrait;
+    public Sprite FarolaPortrait;
+
+
+
+    public Sprite idle, hug, roar;
+    public bool hugTrue;
+    public bool roarTrue;
+    public bool jumpUnlocked;
+    public bool roarAndBreakUnlocked;
+
+
+
 
 //SINGLETON//
     public static PlayerController sharedInstance;
@@ -42,15 +53,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         //Inicializamos el Singleton si está vacío
-        if (sharedInstance == null) sharedInstance = this;
-        //Si no lo está
-        else
+        if (sharedInstance == null)
         {
-            //Si hay otro objeto que no sea este, es destruido (evitamos la duplicación del jugador en el cambio entre escenas)
-            if (sharedInstance != this) Destroy(gameObject);
+            sharedInstance = this;
         }
-        //Hace que el jugador no se destruido al cambiar entre escenas
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -59,19 +65,39 @@ public class PlayerController : MonoBehaviour
         theRB = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         theSR = GetComponent<SpriteRenderer>();
-
-
     }
 
 
 
     void Update()
     {
+        //Cambiar los sprites.
+
+        if (hugTrue)
+        {
+            theSR.sprite = hug;
+        }
+        else
+        {
+            theSR.sprite = idle;
+        }
+
+        if (roarTrue)
+        {
+            theSR.sprite = roar;
+        }
+        else
+        {
+            theSR.sprite = idle;
+        }
+
+
+
         //DETENER EL MOVIMIENTO
 
         if (canMove == true)
         {
-            moveSpeed = 10;
+            moveSpeed = 15;
             jumpForce = 30;
         }
         else
@@ -87,20 +113,42 @@ public class PlayerController : MonoBehaviour
             hugArea.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (roarAndBreakUnlocked)
         {
-            roarArea.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                breakArea.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                roarArea.SetActive(true);
+                roarTrue = true;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (jumpUnlocked)
         {
-            breakArea.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                jumpArea.SetActive(true);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        //AGACHARSE
+
+        if (isCrouching)
         {
-            jumpArea.SetActive(true);
+            this.transform.localScale = new Vector3(0.5f, 0.5f, 1);
         }
+
+        else
+
+        {
+            this.transform.localScale = new Vector3(1f, 1f, 1);
+        }
+
+
+        Crouching();
 
         //Si el contador de KnockBack se ha vaciado, el jugador recupera el control del movimiento
         if (knockBackCounter <= 0)
@@ -121,8 +169,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            //Girar el sprite del jugador según su dirección de movimiento
-            if (theRB.velocity.x < 0)
+
+
+
+                //Girar el sprite del jugador según su dirección de movimiento
+                if (theRB.velocity.x < 0)
             {
                 //No cambiamos la dirección del sprite
                 theSR.flipX = true;
@@ -189,6 +240,26 @@ public class PlayerController : MonoBehaviour
         {
             //El jugador deja de tener padre
             transform.parent = null;
+        }
+    }
+
+    private void Crouching()
+    {
+        if (!isGrounded)
+        {
+            return;
+        }
+
+        if (Input.GetKey("down"))
+        {
+            isCrouching = true;
+            canMove = false;
+        }
+
+        else
+        {
+            isCrouching = false;
+            canMove = true;
         }
     }
 }

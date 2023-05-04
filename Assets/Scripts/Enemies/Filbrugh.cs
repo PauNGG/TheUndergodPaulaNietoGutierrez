@@ -19,6 +19,8 @@ public class Filbrugh : MonoBehaviour
 
     public GameObject fireProyectile;
 
+    public Transform firePoint;
+
     //Referencia al RigidBody del enemigo
     private Rigidbody2D theRB;
     //Referencia al SpriteRenderer del enemigo
@@ -36,12 +38,11 @@ public class Filbrugh : MonoBehaviour
         //Inicializamos el Animator del enemigo
         //anim = GetComponent<Animator>();
 
+
         //Sacamos el Leftpoint y el Rightpoint del objeto padre, para que no se muevan junto con este
         leftPoint.parent = null;//null es vacío o no tiene en este caso
         rightPoint.parent = null;
 
-        //Iniciamos el movimiento hacia la derecha
-        movingRight = true;
         //Inicializamos el contador de tiempo de movimiento
         moveCount = moveTime;
     }
@@ -49,6 +50,9 @@ public class Filbrugh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        firePoint.position = (new Vector3(transform.position.x, transform.position.y + Random.Range(-4, 4), transform.position.z));
+
+
         //Si el contador de tiempo de movimiento no está vacío, el enemigo se puede mover
         if (moveCount > 0)
         {
@@ -88,9 +92,9 @@ public class Filbrugh : MonoBehaviour
                 //Inicializamos el contador de tiempo de espera
                 //waitCount = waitTime;
                 waitCount = Random.Range(waitTime * .25f, waitTime * 1.25f);//Random.Range(valor mínimo, valor máximo)
-                Instantiate(fireProyectile, this.transform.position, Quaternion.identity);
+                Instantiate(fireProyectile, firePoint.position, Quaternion.identity);
 
-
+           
             }
 
             //Animación de movimiento del enemigo

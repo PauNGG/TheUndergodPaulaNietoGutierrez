@@ -8,7 +8,6 @@ public class HugArea : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Has dado un abrazo");
             Destroy(collision.gameObject.GetComponent<DamagePlayer>());
             collision.gameObject.GetComponent<EnemyController>().moveSpeed = 0f;
             collision.gameObject.GetComponent<EnemyController>().canTalk = true;
@@ -16,7 +15,6 @@ public class HugArea : MonoBehaviour
 
         else if (collision.gameObject.tag == "Flying")
         {
-            Debug.Log("Has dado un abrazo a un volador");
             Destroy(collision.gameObject.GetComponent<DamagePlayer>());
             collision.gameObject.GetComponent<FlyingEnemyController>().distanceToAttackPlayer = 0;
             collision.gameObject.GetComponent<FlyingEnemyController>().canTalk = true;
@@ -27,6 +25,24 @@ public class HugArea : MonoBehaviour
             collision.gameObject.GetComponent<SpearEnemyController>().canTalk = true;
             Destroy(collision.gameObject.GetComponent<DamagePlayer>());
         }
+
+        else if (collision.gameObject.tag == "Filbrugh")
+        {
+            Destroy(collision.gameObject.GetComponent<DamagePlayer>());
+            Destroy(collision.gameObject.GetComponent<Filbrugh>());
+            collision.gameObject.GetComponent<DialogueActivator>().enabled = true;
+
+        }
+        else if (collision.gameObject.tag == "Bomber")
+        {
+            Destroy(collision.gameObject.GetComponent<DamagePlayer>());
+            //Destroy(collision.gameObject.GetComponent<BombEnemyController>());
+            collision.gameObject.GetComponent<BombEnemyController>().canTalk = true;
+        }
+    }
+    private void Start()
+    {
+        PlayerController.sharedInstance.hugTrue = true;
     }
 
     private void Update()
@@ -36,6 +52,7 @@ public class HugArea : MonoBehaviour
 
     private void DisableHugArea()
     {
+        PlayerController.sharedInstance.hugTrue = false;
         this.gameObject.SetActive(false);
     }
 }

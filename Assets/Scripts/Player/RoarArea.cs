@@ -21,10 +21,6 @@ public class RoarArea : MonoBehaviour
 
             Debug.Log("Has rugido al Enemigo");
         }
-
-
-
-
     }
 
     private void Update()
@@ -35,5 +31,6 @@ public class RoarArea : MonoBehaviour
     private void DisableRoarArea()
     {
         this.gameObject.SetActive(false);
+        PlayerController.sharedInstance.roarTrue = false;
     }
 }

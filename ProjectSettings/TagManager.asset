@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Platform
+  - Chancla
+  - Enemy
+  - Flying
+  - Spear
+  - Breakable
+  - Bomber
   layers:
   - Default
   - TransparentFX
@@ -56,11 +63,11 @@ TagManager:
   - name: Effects
     uniqueID: 230855693
     locked: 0
-  - name: Player
-    uniqueID: 990776877
-    locked: 0
   - name: Enemy
     uniqueID: 2850158687
+    locked: 0
+  - name: Player
+    uniqueID: 990776877
     locked: 0
   - name: Pickup
     uniqueID: 3369380875

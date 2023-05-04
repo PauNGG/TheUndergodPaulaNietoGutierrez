@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HumanPlayerController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class HumanPlayerController : MonoBehaviour
     private SpriteRenderer theSR;
 
     public bool isLeft;
+    public bool canInteract = false;
 
     public float fireRate = 1f;
     public float canFireTimer = 0f;
@@ -23,9 +25,11 @@ public class HumanPlayerController : MonoBehaviour
     public float knockBackLength, knockBackForce; //Valor que tendrá el contador de KnockBack, y la fuerza de KnockBack
     private float knockBackCounter; //Contador de KnockBack
 
+    public int itemCount;
 
-    //SINGLETON//
-    public static HumanPlayerController sharedInstance;
+
+//SINGLETON//
+public static HumanPlayerController sharedInstance;
 
     private void Awake()
     {
@@ -43,11 +47,19 @@ public class HumanPlayerController : MonoBehaviour
     // Ponemos FixedUpdate para que la longitud de cada frame en segundos mida lo mismo, y así el movimiento sea suavizado
     void Update()
     {
+        if (itemCount == 2)
+        {
+            PlayerController.sharedInstance.roarAndBreakUnlocked = true;
+            //SceneManager.LoadScene("Overworld");
+        }
 
 
 
-            //ATAQUE
-            if (Input.GetKeyDown(KeyCode.E) && Time.time > canFireTimer)
+
+
+
+        //ATAQUE
+        if (Input.GetKeyDown(KeyCode.E) && Time.time > canFireTimer)
         {
             canFireTimer = Time.time + fireRate;
             ThrowCan();

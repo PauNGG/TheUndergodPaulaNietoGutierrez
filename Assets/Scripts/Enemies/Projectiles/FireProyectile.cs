@@ -16,7 +16,16 @@ public class FireProyectile : MonoBehaviour
     private void Update()
     {
         theRB.velocity = new Vector2(speed, 0);
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 14f);
 
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
 }

@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Micropolis.unity
     guid: 14f1f4d063e9847409b2bf78ddb2a66b
   - enabled: 1
-    path: Assets/Scenes/MainScenario.unity
-    guid: eb7736829ef28034ca9b137095fd1332
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: bac47718ef03e5945a349652dd838ba1
   - enabled: 1
@@ -26,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BottleBattle.unity
     guid: f831f7ae7bcf2a94b9b370cd651aed59
+  - enabled: 1
+    path: Assets/Scenes/Overworld.unity
+    guid: dbcd01cfde9a5fa4e846eb416f7a9451
   m_configObjects: {}

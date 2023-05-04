@@ -9,15 +9,13 @@ public class GameManagerTetris : MonoBehaviour
 {
     public int linecounter;
     public static GameManagerTetris sharedInstance;
-    public AudioClip destroy;
-    public AudioSource sound;
     public GameObject Human;
     public GameObject pieceSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
-        sound = GetComponent<AudioSource>();
+
     }
 
     public void Awake()
@@ -33,20 +31,19 @@ public class GameManagerTetris : MonoBehaviour
         if (linecounter >= 5)
         {
             Debug.Log("Fin");
-            StartCoroutine(EndOfTetrisCo());
+            EndOfTetris();
         }
     }
 
-    public IEnumerator EndOfTetrisCo()
+    public void EndOfTetris()
     {
-        PlayerController.sharedInstance.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(0.5f);
-
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (GameObject piece in pieces)
+        {
+            GameObject.Destroy(piece);
+        }
         Destroy(pieceSpawner);
-
-        CameraController.sharedInstance.target = PlayerController.sharedInstance.gameObject.transform;
-        yield return new WaitForSeconds(0.5f);
-
+        Destroy(this.gameObject);
+        SceneManager.LoadScene("Overworld");
     }
 }

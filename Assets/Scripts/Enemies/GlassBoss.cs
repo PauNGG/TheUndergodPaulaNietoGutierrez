@@ -6,7 +6,8 @@ public class GlassBoss: MonoBehaviour
 {
     //Velocidad del enemigo
     public float moveSpeed;
-
+    public GameObject Awa;
+    public GameObject UndergodStraps;
     //Posiciones más a la izquierda y más a la derecha que se va a poder mover el enemigo
     public Transform leftPoint, rightPoint;
 
@@ -190,7 +191,10 @@ public class GlassBoss: MonoBehaviour
                 //Hacemos cero la vida si fuera negativa
                 currentHealth = 0;
 
+                UndergodStraps.SetActive(true);
+                Awa.SetActive(true);
                 Destroy(this.gameObject);
+
 
             }
             //Si el jugador ha recibido daño pero no ha muerto

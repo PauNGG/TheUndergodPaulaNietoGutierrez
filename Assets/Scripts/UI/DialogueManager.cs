@@ -36,6 +36,7 @@ public class DialogueManager : MonoBehaviour
         //Si el cuadro de diálogo está activo
         if (dialogBox.activeInHierarchy)
         {
+            PlayerController.sharedInstance.canMove = false;
             //Al pulsar la tecla X
             if (Input.GetButtonUp("Fire1"))
             {
@@ -103,7 +104,11 @@ public class DialogueManager : MonoBehaviour
                 //Ponemos el sprite del npc en concreto
                 portrait.sprite = theSNpc;
             //Si es el nombre de un personaje principal
-            else
+            else if (charName == "Farola")
+                //Ponemos el sprite de ese personaje
+                portrait.sprite = PlayerController.sharedInstance.FarolaPortrait;  
+
+            else if (charName == "Bhalgrogh")
                 //Ponemos el sprite de ese personaje
                 portrait.sprite = PlayerController.sharedInstance.BhalgroghPortrait;
 
